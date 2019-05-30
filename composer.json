@@ -1,0 +1,27 @@
+{
+  "name": "codepku/laravel-query-logger",
+  "description": "Query Logger for Laravel",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "CodePKu",
+      "email": "team@codepku.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "CodePKu\\LaravelQueryLogger\\": "src/"
+    },
+    "minimum-stability": "stable",
+    "require": {
+      "laravel/framework": "5.*"
+    },
+    "extra": {
+      "laravel": {
+        "providers": [
+          "CodePKu\\LaravelQueryLogger\\LaravelQueryLoggerServiceProvider"
+        ]
+      }
+    }
+  }
+}
