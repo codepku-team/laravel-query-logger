@@ -33,10 +33,10 @@ class LaravelQueryLoggerServiceProvider extends ServiceProvider
         }
 
         DB::listen(function (QueryExecuted $queryExecuted) {
-            $time = $queryExecuted->time;
+            $executeSec = $queryExecuted->time / 1000;
 
             $slower = (float)config('laravel-query-logger.slower');
-            if ($slower < 0 || $time < $slower) {
+            if ($slower < 0 || $executeSec < $slower) {
                 return;
             }
 
@@ -45,7 +45,7 @@ class LaravelQueryLoggerServiceProvider extends ServiceProvider
             $pdo = $queryExecuted->connection->getPdo();
             $bindings = $queryExecuted->bindings;
             $realSql = vsprintf($tpl, array_map([$pdo, 'quote'], $bindings));
-            $duration = $this->beautifyDuration($queryExecuted->time / 1000);
+            $duration = $this->beautifyDuration($executeSec);
 
             Log::channel('single')->log($level, sprintf('[%s] %s | %s: %s', $duration, $realSql, request()->method(), request()->getRequestUri()));
         });
